@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+pytest = "*"
+
+[scripts]
+start = "python main.py"
+tests = "pytest -vv -x --junit-xml=junit-tests"
+prod = "python -u main.py"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

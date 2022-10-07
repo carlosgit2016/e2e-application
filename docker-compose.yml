@@ -1,0 +1,33 @@
+services:
+    base-image:
+        build:
+            context: ./base-image
+        image: e2e-project/base-image
+               
+    boomer:
+        build:
+            context: ./boomer
+        networks:
+            - local
+        environment:
+            ADDRESS: backend
+        depends_on: 
+            - backend
+            - base-image
+
+    backend:
+        build:
+            context: ./backend
+        ports: 
+            - "8181:8181" # remove after tests
+        networks:
+            - local
+        depends_on:
+            - base-image
+
+networks:
+    local:
+   
+            
+
+
