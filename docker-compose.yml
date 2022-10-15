@@ -1,33 +1,51 @@
 services:
-    base-image:
-        build:
-            context: ./base-image
-        image: e2e-project/base-image
-               
-    boomer:
-        build:
-            context: ./boomer
-        networks:
-            - local
-        environment:
-            ADDRESS: backend
-        depends_on: 
-            - backend
-            - base-image
 
-    backend:
-        build:
-            context: ./backend
-        ports: 
-            - "8181:8181" # remove after tests
-        networks:
-            - local
-        depends_on:
-            - base-image
+  base-image:
+    build:
+      context: ./base-image
+    image: e2e-project/base-image
+
+  boomer:
+    build:
+      context: ./boomer
+    networks:
+      - local
+    environment:
+      ADDRESS: backend
+    depends_on:
+      - backend
+      - base-image
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8181:8181" # remove after tests
+    networks:
+      - local
+    depends_on:
+      - base-image
+
+  jenkins:
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    image: jenkins/jenkins:lts
+    environment:
+      - JAVA_OPTS="-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true"
+    volumes:
+      - type: volume
+        source: jenkins-data
+        target: /var/jenkins_home
+      - type: bind
+        source: /home/cflor/git
+        target: /app/repos
+
+volumes:
+  jenkins-data:
+
 
 networks:
-    local:
-   
-            
+  local:
 
 
