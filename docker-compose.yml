@@ -67,6 +67,29 @@ services:
     ports:
       - 34700
 
+  jenkins_slave_2:
+    build:
+      context: ./jenkins-slave
+    init: true
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_SECRET=85061b942c6a989b8d1b87e3c46d23205ad928bee85f023508e71408b1a67d44
+      - JENKINS_AGENT_NAME=slave2
+      - JENKINS_AGENT_WORKDIR=/home/jenkins/jenkins-agent
+    volumes:
+      - type: volume
+        source: jenkins-slave-data
+        target: /var/jenkins
+      - type: bind
+        source: /home/cflor/git
+        target: /app/repos
+    networks:
+      - jenkins
+    depends_on:
+      - jenkins
+    ports:
+      - 34700
+
 volumes:
   jenkins-data:
   jenkins-slave-data:
