@@ -40,12 +40,40 @@ services:
       - type: bind
         source: /home/cflor/git
         target: /app/repos
+    networks:
+      - jenkins
+
+  jenkins_slave:
+    image: jenkins/inbound-agent:latest
+    # build:
+    #   context: ./jenkins-slave
+    init: true
+    environment:
+      - JENKINS_URL=http://jenkins:8080
+      - JENKINS_SECRET=fa5177060800d613fea1886e087d51513d426106ff1a29ddb4bca831691c1044
+      - JENKINS_AGENT_NAME=slave1
+      - JENKINS_AGENT_WORKDIR=/home/jenkins/jenkins-agent
+    volumes:
+      - type: volume
+        source: jenkins-slave-data
+        target: /var/jenkins
+      - type: bind
+        source: /home/cflor/git
+        target: /app/repos
+    networks:
+      - jenkins
+    depends_on:
+      - jenkins
+    ports:
+      - 34700
 
 volumes:
   jenkins-data:
+  jenkins-slave-data:
 
 
 networks:
   local:
+  jenkins:
 
 
