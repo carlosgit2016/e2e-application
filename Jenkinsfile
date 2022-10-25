@@ -10,7 +10,7 @@ pipeline {
 
         stage('Publishing image'){
             steps {
-                echo 'Publishing... image'
+                echo 'Publishing... docker image'
             }
         }
 
