@@ -1,27 +1,34 @@
 pipeline {
     agent { label 'custom' }
 
+    environment {
+        DOCKERHUB_CREDENTIALS=credentials('carlosflor-creds')
+    }
+
     stages {
 
-        stage('Building preparation'){
+        stage('Tests'){
             steps {
-                sh 'ls -lha'
-                sh 'touch mytest'
-                sh 'whoami'
-                sh 'echo $HOST'
-                sh 'env'
+                echo 'Test step'
+                sh 'git branch --show-current'
+                echo 'branch ' + env.BRANCH_NAME
             }
         }
 
-        stage('Building image'){
+        stage('Building images'){
             steps {
-                sh 'docker --version'
+                echo 'Building images based on git diff'
+                sh './build_images.sh ' + env.BRANCH_NAME
             }
         }
 
         stage('Publishing image'){
+            when {
+                branch 'main'
+            }
             steps {
-                echo 'Publishing... docker image'
+                echo "Logging to docker hub"
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username $DOCKERHUB_CREDENTIALS_USR --password-stdin"
             }
         }
 

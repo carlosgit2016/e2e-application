@@ -4,8 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pytest = "*"
 
 [dev-packages]
+
+[scripts]
+tests = "pytest -vv -x --junit-xml=junit-tests"
 
 [requires]
 python_version = "3.8"
