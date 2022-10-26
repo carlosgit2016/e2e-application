@@ -83,6 +83,9 @@ services:
       - type: bind
         source: /home/cflor/git
         target: /app/repos
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
     networks:
       - jenkins
     depends_on:

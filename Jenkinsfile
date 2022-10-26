@@ -2,24 +2,17 @@ pipeline {
     agent { label 'custom' }
 
     stages {
-
-        stage('Building preparation'){
+        stage('Building images'){
             steps {
-                sh 'ls -lha'
-                sh 'touch mytest'
-                sh 'whoami'
-                sh 'echo $HOST'
-                sh 'env'
-            }
-        }
-
-        stage('Building image'){
-            steps {
-                sh 'docker --version'
+                echo 'Building images based on git diff'
+                sh './build_images.sh'
             }
         }
 
         stage('Publishing image'){
+            when {
+                branch 'main'
+            }
             steps {
                 echo 'Publishing... docker image'
             }
