@@ -6,3 +6,6 @@ def test_dumb_2():
 
 def test_dumb_3():
     assert 6/2 == 3
+
+def test_dumb_4():
+    assert 4/2 == 2
