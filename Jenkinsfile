@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS=credentials('carlosflor-creds')
+        DOCKERHUB_REPOSITORY='carlosflor25'
     }
 
     stages {
@@ -18,17 +19,18 @@ pipeline {
         stage('Building images'){
             steps {
                 echo 'Building images based on git diff'
-                sh './build_images.sh ' + env.BRANCH_NAME
+                sh './build_images.sh ' + env.BRANCH_NAME + ' ' + env.DOCKERHUB_REPOSITORY
             }
         }
 
-        stage('Publishing image'){
+        stage('Publishing images'){
             when {
                 branch 'main'
             }
             steps {
                 echo "Logging to docker hub"
                 sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                sh './push_images.sh ' + env.BRANCH_NAME + ' ' + env.DOCKERHUB_REPOSITORY
             }
         }
 

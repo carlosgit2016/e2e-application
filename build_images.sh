@@ -3,6 +3,7 @@
 set -e
 
 BRANCH_NAME=$1
+DOCKER_HUB_REPOSITORY=$2
 
 git_diff_name_only() {
     # Doing a git diff and looking for folders
@@ -21,7 +22,7 @@ docker_build() {
     local context=$3
     local dockerfile=$4
     
-    docker build -t $name:$tag -f $dockerfile $context
+    docker build -t "$DOCKER_HUB_REPOSITORY/$name:$tag" -f $dockerfile $context
 }
 
 main() {

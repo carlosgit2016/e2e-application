@@ -4,8 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+pytest = "*"
 
 [dev-packages]
+
+[scripts]
+start = "python main.py"
+tests = "pytest -vv -x --junit-xml=junit-tests"
+prod = "python -u main.py"
 
 [requires]
 python_version = "3.8"
