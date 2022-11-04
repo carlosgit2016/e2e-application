@@ -93,6 +93,23 @@ services:
     ports:
       - 34700
 
+  spinnaker:
+    build:
+      context: ./spinnaker-image
+      args:
+        - PRIVATE_IP=172.20.0.13
+        - MINNAKER_VERSION=0.1.3
+    environment:
+      - PRIVATE_IP=172.20.0.13
+      - MINNAKER_VERSION=0.1.3
+    networks:
+      jenkins:
+        ipv4_address: 172.20.0.13
+    depends_on:
+      - jenkins
+    ports:
+      - 5000:443
+
 volumes:
   jenkins-data:
   jenkins-slave-data:
