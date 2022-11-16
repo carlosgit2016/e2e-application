@@ -92,7 +92,7 @@ services:
       - jenkins
     ports:
       - 34700
-
+      
   spinnaker:
     build:
       context: ./spinnaker-image
@@ -109,6 +109,20 @@ services:
       - jenkins
     ports:
       - 5000:443
+    volumes:
+      - type: bind
+        source: /sys/fs/cgroup
+        target: /sys/fs/cgroup
+        read_only: true
+      - type: bind
+        source: /sys/fs/cgroup/systemd
+        target: /sys/fs/cgroup/systemd
+    tmpfs:
+      - /run
+      - /tmp 
+    privileged: true
+    entrypoint: 
+      - /lib/systemd/systemd
 
 volumes:
   jenkins-data:
@@ -118,5 +132,8 @@ volumes:
 networks:
   local:
   jenkins:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 

@@ -11,7 +11,9 @@ RUN apt-get update && \
     tar \ 
     sudo \
     iproute2 \
-    uuid-runtime
+    uuid-runtime \
+    systemd \
+    initscripts
 
 WORKDIR /spinnaker
 
@@ -23,5 +25,5 @@ COPY --from=bitnami/kubectl /opt/bitnami/kubectl/bin/kubectl /usr/bin/
 
 WORKDIR /spinnaker/minnaker-${MINNAKER_VERSION}
 
-ENTRYPOINT [ "./scripts/install.sh" ]
-CMD ["-o" "-P" "$PRIVATE_IP"]
+# ENTRYPOINT [ "./scripts/install.sh" ]
+# CMD ["-o" "-P" "$PRIVATE_IP"]
